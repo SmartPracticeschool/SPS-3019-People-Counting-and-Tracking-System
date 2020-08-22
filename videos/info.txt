@@ -1,0 +1,1 @@
+This folder contains the video in which we are performing analysis/ counting.
