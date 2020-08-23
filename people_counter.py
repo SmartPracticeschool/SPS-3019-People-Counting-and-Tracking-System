@@ -38,3 +38,16 @@ totalDown = 0
 totalUp = 0
 skip_frames = 30
 fps = FPS().start()
+
+while True:
+    sucess, frame = vs.read()
+    if "videos/example_01.mp4" is not None and frame is None:
+        break
+    frame = imutils.resize(frame, width=500)
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    if W is None or H is None:
+        (H, W) = frame.shape[:2]
+    if "output" is not None and writer is None:
+        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+        writer = cv2.VideoWriter(
+            r"output/output_02.avi", fourcc, 30, (W, H), True)
