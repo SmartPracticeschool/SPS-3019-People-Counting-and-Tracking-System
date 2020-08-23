@@ -145,3 +145,5 @@ if not (r"videos/example_02.mp4", False):
 
 else:
 	vs.release()
+
+cv2.destroyAllWindows()
