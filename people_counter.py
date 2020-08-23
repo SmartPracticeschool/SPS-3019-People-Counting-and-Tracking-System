@@ -50,7 +50,7 @@ while True:
     if "output" is not None and writer is None:
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
         writer = cv2.VideoWriter(
-            r"output/output_02.avi", fourcc, 30, (W, H), True)
+            r"outputvideos/output_01.avi", fourcc, 30, (W, H), True)
 
     status = "Waiting"
     rects = []
