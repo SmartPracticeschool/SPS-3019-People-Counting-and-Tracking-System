@@ -57,3 +57,10 @@ class CentroidTracker(object):
                 self.disappeared[objectID]=0
                 usedRows.add(row)
                 usedCols.add(col)
+
+            if D.shape[0] >= D.shape[1]:
+                for row in unusedRows:
+                    objectID=objectIDs[row]
+                    self.disappeared[objectID] += 1
+                    if self.disappeared[objectID] > self.maxDisappeared:
+                        self.deregister(objectID)
