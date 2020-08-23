@@ -3,7 +3,7 @@ from collections import OrderedDict
 import numpy as np
 
 
-class CentroidTracker(object):
+class CentroidTracker:
     def __init__(self, maxDisappeared=50, maxDistance=50):
         self.nextObjectID = 0
         self.objects = OrderedDict()
@@ -40,27 +40,30 @@ class CentroidTracker(object):
                 self.register(inputCentroids[i])
         else:
             objectIDs = list(self.objects.keys())
-            objectCentroids = list(self.objects.values()
-            D=dist.cdist(np.array(objectCentroids), inputCentroids)
-            rows=D.min(axis=1).argsort()
-            cols=D.argmin(axis=1)[rows]
-            usedRows=set()
-            usedCols=set()
+            objectCentroids = list(self.objects.values())
+            D = dist.cdist(np.array(objectCentroids), inputCentroids)
+            rows = D.min(axis=1).argsort()
+            cols = D.argmin(axis=1)[rows]
+            usedRows = set()
+            usedCols = set()
 
             for (row, col) in zip(rows, cols):
                 if row in usedRows or col in usedCols:
                     continue
                 if D[row, col] > self.maxDistance:
                     continue
-                objectID=objectIDs[row]
-                self.objects[objectID]=inputCentroids[col]
-                self.disappeared[objectID]=0
+                objectID = objectIDs[row]
+                self.objects[objectID] = inputCentroids[col]
+                self.disappeared[objectID] = 0
                 usedRows.add(row)
                 usedCols.add(col)
 
+            unusedRows = set(range(0, D.shape[0])).difference(usedRows)
+            unusedCols = set(range(0, D.shape[1])).difference(usedCols)
+
             if D.shape[0] >= D.shape[1]:
                 for row in unusedRows:
-                    objectID=objectIDs[row]
+                    objectID = objectIDs[row]
                     self.disappeared[objectID] += 1
                     if self.disappeared[objectID] > self.maxDisappeared:
                         self.deregister(objectID)
