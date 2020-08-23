@@ -38,3 +38,11 @@ class CentroidTracker(object):
         if len(self.objects) == 0:
             for i in range(0, len(inputCentroids)):
                 self.register(inputCentroids[i])
+        else:
+            objectIDs = list(self.objects.keys())
+            objectCentroids = list(self.objects.values()
+            D=dist.cdist(np.array(objectCentroids), inputCentroids)
+            rows=D.min(axis=1).argsort()
+            cols=D.argmin(axis=1)[rows]
+            usedRows=set()
+            usedCols=set()
