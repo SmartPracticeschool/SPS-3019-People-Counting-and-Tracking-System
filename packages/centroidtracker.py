@@ -46,3 +46,14 @@ class CentroidTracker(object):
             cols=D.argmin(axis=1)[rows]
             usedRows=set()
             usedCols=set()
+
+            for (row, col) in zip(rows, cols):
+                if row in usedRows or col in usedCols:
+                    continue
+                if D[row, col] > self.maxDistance:
+                    continue
+                objectID=objectIDs[row]
+                self.objects[objectID]=inputCentroids[col]
+                self.disappeared[objectID]=0
+                usedRows.add(row)
+                usedCols.add(col)
