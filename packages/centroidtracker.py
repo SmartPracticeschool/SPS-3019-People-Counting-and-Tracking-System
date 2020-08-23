@@ -10,3 +10,8 @@ class CentroidTracker(object):
         self.disappeared = OrderedDict()
         self.maxDisappeared = maxDisappeared
         self.maxDistance = maxDistance
+
+    def register(self, centroid):
+        self.objects[self.nextObjectID] = centroid
+        self.disappeared[self.nextObjectID] = 0
+        self.nextObjectID += 1
