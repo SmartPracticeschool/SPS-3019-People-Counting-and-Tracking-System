@@ -51,3 +51,12 @@ while True:
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
         writer = cv2.VideoWriter(
             r"output/output_02.avi", fourcc, 30, (W, H), True)
+
+    status = "Waiting"
+    rects = []
+    if totalFrames % skip_frames == 0:
+        status = "Detecting"
+        trackers = []
+        blob = cv2.dnn.blobFromImage(frame, 0.007843, (W, H), 127.5)
+        net.setInput(blob)
+        detections = net.forward()
