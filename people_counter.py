@@ -86,40 +86,40 @@ while True:
             rects.append((startX, startY, endX, endY))
 
     cv2.line(frame, (0, H // 2), (W, H // 2), (0, 255, 255), 2)
-      objects = ct.update(rects)
-       for (objectID, centroid) in objects.items():
-            to = trackableObjects.get(objectID, None)
+    objects = ct.update(rects)
+    for (objectID, centroid) in objects.items():
+        to = trackableObjects.get(objectID, None)
 
-            if to is None:
-                to = TrackableObject(objectID, centroid)
+        if to is None:
+            to = TrackableObject(objectID, centroid)
 
-            else:
-                y = [c[1] for c in to.centroids]
-                direction = centroid[1] - np.mean(y)
-                to.centroids.append(centroid)
+        else:
+            y = [c[1] for c in to.centroids]
+            direction = centroid[1] - np.mean(y)
+            to.centroids.append(centroid)
 
-                if not to.counted:
-                    if direction < 0 and centroid[1] < H // 2:
-                        totalUp += 1
-                        to.counted = True
+            if not to.counted:
+                if direction < 0 and centroid[1] < H // 2:
+                    totalUp += 1
+                    to.counted = True
 
-                    elif direction > 0 and centroid[1] > H // 2:
-                        totalDown += 1
-                        to.counted = True
+                elif direction > 0 and centroid[1] > H // 2:
+                    totalDown += 1
+                    to.counted = True
 
-            trackableObjects[objectID] = to
+        trackableObjects[objectID] = to
 
-            text = "ID {}".format(objectID)
-            cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            cv2.circle(frame, (centroid[0], centroid[1]), 4, (0, 255, 0), -1)
+        text = "ID {}".format(objectID)
+        cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        cv2.circle(frame, (centroid[0], centroid[1]), 4, (0, 255, 0), -1)
 
-        info = [
-            ("Up", totalUp),
-            ("Down", totalDown),
-            ("Status", status),
-        ]
-        for (i, (k, v)) in enumerate(info):
-            text = "{}: {}".format(k, v)
-            cv2.putText(frame, text, (10, H - ((i * 20) + 20)),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+    info = [
+        ("Up", totalUp),
+        ("Down", totalDown),
+        ("Status", status),
+    ]
+    for (i, (k, v)) in enumerate(info):
+        text = "{}: {}".format(k, v)
+        cv2.putText(frame, text, (10, H - ((i * 20) + 20)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
