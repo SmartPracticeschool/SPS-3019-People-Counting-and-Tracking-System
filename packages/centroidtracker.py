@@ -64,3 +64,7 @@ class CentroidTracker(object):
                     self.disappeared[objectID] += 1
                     if self.disappeared[objectID] > self.maxDisappeared:
                         self.deregister(objectID)
+            else:
+                for col in unusedCols:
+                    self.register(inputCentroids[col])
+        return self.objects
