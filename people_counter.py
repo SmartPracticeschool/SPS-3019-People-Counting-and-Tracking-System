@@ -67,3 +67,20 @@ while True:
                 idx = int(detections[0, 0, i, 1])
                 if CLASSES[idx] != "person":
                     continue
+
+                box = detections[0, 0, i, 3:7] * np.array([W, H, W, H])
+                (startX, startY, endX, endY) = box.astype("int")
+                tracker = dlib.correlation_tracker()
+                rect = dlib.rectangle(startX, startY, endX, endY)
+                tracker.start_track(rgb, rect)
+                trackers.append(tracker)
+    else:
+        for tracker in trackers:
+            status = "Tracking"
+            tracker.update(rgb)
+            pos = tracker.get_position()
+            startX = int(pos.left())
+            startY = int(pos.top())
+            endX = int(pos.right())
+            endY = int(pos.bottom())
+            rects.append((startX, startY, endX, endY))
