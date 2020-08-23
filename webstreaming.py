@@ -31,3 +31,8 @@ if not (r"videos/example_01.mp4", False):
 else:
     print("[INFO] opening video file...")
     vs = cv2.VideoCapture("videos/example_01.mp4")
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
