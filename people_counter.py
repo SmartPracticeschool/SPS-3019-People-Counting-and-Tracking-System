@@ -125,25 +125,25 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
     if writer is not None:
-		writer.write(frame)
-	cv2.imshow("Frame", frame)
-	key = cv2.waitKey(1) & 0xFF
-	if key == ord("q"):
-		break
-	totalFrames += 1
-	fps.update()
+        writer.write(frame)
+    cv2.imshow("Frame", frame)
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord("q"):
+        break
+    totalFrames += 1
+    fps.update()
 
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 if writer is not None:
-	writer.release()
+    writer.release()
 
 if not (r"videos/example_02.mp4", False):
-	vs.stop()
+    vs.stop()
 
 else:
-	vs.release()
+    vs.release()
 
 cv2.destroyAllWindows()
