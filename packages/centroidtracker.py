@@ -19,3 +19,17 @@ class CentroidTracker(object):
     def deregister(self, objectID):
         del self.objects[objectID]
         del self.disappeared[objectID]
+
+    def update(self, rects):
+        if len(rects) == 0:
+            for objectID in list(self.disappeared.keys()):
+                self.disappeared[objectID] += 1
+                if self.disappeared[objectID] > self.maxDisappeared:
+                    self.deregister(objectID)
+            return self.objects
+
+        for (i, (startX, startY, endX, endY)) in enumerate(rects):
+            # use the bounding box coordinates to derive the centroid
+            cX = int((startX + endX) / 2.0)
+            cY = int((startY + endY) / 2.0)
+            inputCentroids[i] = (cX, cY)
